@@ -1,0 +1,50 @@
+# Deep Fund Configuration
+# CS2 Market Analysis with Technical, Sentiment Reverse, Liquidity, and Event Analysis
+# TSLE = Technical + Sentiment Reverse + Liquidity + Event
+# Reverse Sentiment: Uses contrarian hypothesis - when Reddit discussion is overly bullish, it may indicate market overheating
+exp_name: "TSrLE-qw"
+
+# Trading settings
+cashflow: 10000
+
+# CS2物品列表 (20 items)
+tickers:
+  - "Sticker | Team Liquid (Holo) | Paris 2023"
+  - "Desert Eagle | Mecha Industries (Factory New)"
+  - "Glove Case"
+  - "Sticker | FaZe Clan (Holo) | Paris 2023"
+  - "M4A4 | Desolate Space (Factory New)"
+  - "Sticker | Hypnoteyes (Holo)"
+  - "M4A4 | 龍王 (Dragon King) (Factory New)"
+  - "M4A1-S | Decimator (Factory New)"
+  - "AWP | Hyper Beast (Factory New)"
+  - "Operation Broken Fang Case"
+  - "M4A4 | Neo-Noir (Factory New)"
+  - "Operation Riptide Case"
+  - "AK-47 | Bloodsport (Factory New)"
+  - "Sticker | Taste Buddy (Holo)"
+  - "Sticker | Bolt Energy (Foil)"
+  - "Desert Eagle | Printstream (Factory New)"
+  - "Dreams & Nightmares Case"
+  - "Operation Wildfire Case"
+  - "AK-47 | Asiimov (Factory New)"
+  - "M4A1-S | Leaded Glass (Factory New)"
+
+# Analysts to run: Technical, Sentiment Reverse, Liquidity, and Event analysis
+workflow_analysts:
+  - technical
+  - sentiment_reverse
+  - liquidity
+  - event
+
+# LLM model settings
+llm:
+  provider: "Alibaba"
+  model: "qwen-max-2025-01-25"
+
+# Use planner mode: let LLM intelligently select needed analysts based on item characteristics
+planner_mode: true
+
+# Enable multi-item analysis mode
+multi_item_mode: true
+

@@ -1,0 +1,44 @@
+# Deep Fund Configuration
+exp_name: "T-ds"
+
+# Trading settings
+cashflow: 10000  
+
+# CS2物品列表
+tickers:
+  - "Sticker | Team Liquid (Holo) | Paris 2023"
+  - "Desert Eagle | Mecha Industries (Factory New)"
+  - "Glove Case"
+  - "Sticker | FaZe Clan (Holo) | Paris 2023"
+  - "M4A4 | Desolate Space (Factory New)"
+  - "Sticker | Hypnoteyes (Holo)"
+  - "M4A4 | 龍王 (Dragon King) (Factory New)"
+  - "M4A1-S | Decimator (Factory New)"
+  - "AWP | Hyper Beast (Factory New)"
+  - "Operation Broken Fang Case"
+  - "M4A4 | Neo-Noir (Factory New)"
+  - "Operation Riptide Case"
+  - "AK-47 | Bloodsport (Factory New)"
+  - "Sticker | Taste Buddy (Holo)"
+  - "Sticker | Bolt Energy (Foil)"
+  - "Desert Eagle | Printstream (Factory New)"
+  - "Dreams & Nightmares Case"
+  - "Operation Wildfire Case"
+  - "AK-47 | Asiimov (Factory New)"
+  - "M4A1-S | Leaded Glass (Factory New)"
+
+# Analysts to run (CS2主要使用technical分析)
+workflow_analysts:
+  - technical
+
+# LLM model settings
+llm:
+  provider: "DeepSeek" 
+  model: "deepseek-chat"
+
+# 不使用planner模式，直接使用technical分析
+planner_mode: false
+
+# 启用多物品分析模式
+multi_item_mode: true
+

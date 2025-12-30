@@ -1,0 +1,49 @@
+# Deep Fund Configuration - CS2 Market with Reddit Sentiment Analysis
+# 新的实验配置，使用填充后的数据
+
+exp_name: "TS-ds"
+
+# Trading settings
+cashflow: 10000  
+
+# CS2物品列表
+tickers:
+  - "Sticker | Team Liquid (Holo) | Paris 2023"
+  - "Desert Eagle | Mecha Industries (Factory New)"
+  - "Glove Case"
+  - "Sticker | FaZe Clan (Holo) | Paris 2023"
+  - "M4A4 | Desolate Space (Factory New)"
+  - "Sticker | Hypnoteyes (Holo)"
+  - "M4A4 | 龍王 (Dragon King) (Factory New)"
+  - "M4A1-S | Decimator (Factory New)"
+  - "AWP | Hyper Beast (Factory New)"
+  - "Operation Broken Fang Case"
+  - "M4A4 | Neo-Noir (Factory New)"
+  - "Operation Riptide Case"
+  - "AK-47 | Bloodsport (Factory New)"
+  - "Sticker | Taste Buddy (Holo)"
+  - "Sticker | Bolt Energy (Foil)"
+  - "Desert Eagle | Printstream (Factory New)"
+  - "Dreams & Nightmares Case"
+  - "Operation Wildfire Case"
+  - "AK-47 | Asiimov (Factory New)"
+  - "M4A1-S | Leaded Glass (Factory New)"
+
+# Analysts to run 
+# - technical: 技术指标分析
+# - sentiment: Reddit市场情绪分析（专门分析CS2市场的社区情绪）
+workflow_analysts:
+  - technical
+  - sentiment
+
+# LLM model settings
+llm:
+  provider: "DeepSeek" 
+  model: "deepseek-chat"
+
+# 使用planner模式：让LLM根据物品特征智能选择需要的分析器
+planner_mode: true
+
+# 启用多物品分析模式
+multi_item_mode: true
+

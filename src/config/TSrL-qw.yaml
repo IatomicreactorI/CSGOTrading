@@ -1,0 +1,50 @@
+# Deep Fund Configuration
+# Comprehensive CS2 Market Analysis with Technical, Reverse Sentiment, and Liquidity Analysis
+# Reverse Sentiment: Uses contrarian hypothesis - when Reddit discussion is overly bullish, it may indicate market overheating
+exp_name: "TSrL-qw"
+
+# Trading settings
+cashflow: 10000  
+
+# CS2物品列表
+tickers:
+  - "Sticker | Team Liquid (Holo) | Paris 2023"
+  - "Desert Eagle | Mecha Industries (Factory New)"
+  - "Glove Case"
+  - "Sticker | FaZe Clan (Holo) | Paris 2023"
+  - "M4A4 | Desolate Space (Factory New)"
+  - "Sticker | Hypnoteyes (Holo)"
+  - "M4A4 | 龍王 (Dragon King) (Factory New)"
+  - "M4A1-S | Decimator (Factory New)"
+  - "AWP | Hyper Beast (Factory New)"
+  - "Operation Broken Fang Case"
+  - "M4A4 | Neo-Noir (Factory New)"
+  - "Operation Riptide Case"
+  - "AK-47 | Bloodsport (Factory New)"
+  - "Sticker | Taste Buddy (Holo)"
+  - "Sticker | Bolt Energy (Foil)"
+  - "Desert Eagle | Printstream (Factory New)"
+  - "Dreams & Nightmares Case"
+  - "Operation Wildfire Case"
+  - "AK-47 | Asiimov (Factory New)"
+  - "M4A1-S | Leaded Glass (Factory New)"
+
+# Analysts to run: Technical, Reverse Sentiment, and Liquidity analysis
+# Reverse Sentiment: Bullish Reddit sentiment -> Bearish signal (market overheating)
+#                    Bearish Reddit sentiment -> Bullish signal (overselling opportunity)
+workflow_analysts:
+  - technical
+  - sentiment_reverse
+  - liquidity
+
+# LLM model settings
+llm:
+  provider: "Alibaba" 
+  model: "qwen-max-2025-01-25"
+
+# 使用planner模式，让LLM根据物品特征智能选择需要的分析器
+planner_mode: true
+
+# 启用多物品分析模式
+multi_item_mode: true
+

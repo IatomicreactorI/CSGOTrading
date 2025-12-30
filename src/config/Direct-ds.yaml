@@ -1,0 +1,45 @@
+# Deep Fund Configuration
+# Direct LLM Analysis Mode - No Analyst Agents
+# Uses LLM prompt directly to analyze CS2 market items without collecting analyst signals
+exp_name: "Direct-ds"
+
+# Trading settings
+cashflow: 10000
+
+# CS2物品列表 (20 items)
+tickers:
+  - "Sticker | Team Liquid (Holo) | Paris 2023"
+  - "Desert Eagle | Mecha Industries (Factory New)"
+  - "Glove Case"
+  - "Sticker | FaZe Clan (Holo) | Paris 2023"
+  - "M4A4 | Desolate Space (Factory New)"
+  - "Sticker | Hypnoteyes (Holo)"
+  - "M4A4 | 龍王 (Dragon King) (Factory New)"
+  - "M4A1-S | Decimator (Factory New)"
+  - "AWP | Hyper Beast (Factory New)"
+  - "Operation Broken Fang Case"
+  - "M4A4 | Neo-Noir (Factory New)"
+  - "Operation Riptide Case"
+  - "AK-47 | Bloodsport (Factory New)"
+  - "Sticker | Taste Buddy (Holo)"
+  - "Sticker | Bolt Energy (Foil)"
+  - "Desert Eagle | Printstream (Factory New)"
+  - "Dreams & Nightmares Case"
+  - "Operation Wildfire Case"
+  - "AK-47 | Asiimov (Factory New)"
+  - "M4A1-S | Leaded Glass (Factory New)"
+
+# No analysts - direct LLM analysis mode
+workflow_analysts: []
+
+# LLM model settings
+llm:
+  provider: "DeepSeek"
+  model: "deepseek-chat"
+
+# Planner mode is not used when workflow_analysts is empty
+planner_mode: false
+
+# Enable multi-item analysis mode
+multi_item_mode: true
+
