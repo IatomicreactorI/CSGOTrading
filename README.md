@@ -221,7 +221,6 @@ tickers:           # Assets to trade
 llm:               # LLM configuration
   provider: "deepseek"
   model: "deepseek-chat"
-  temperature: 0.5
 
 planner_mode: true        # Enable meta-planner
 workflow_analysts:        # Available analysts
