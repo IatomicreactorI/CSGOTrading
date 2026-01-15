@@ -258,7 +258,8 @@ CSGOTrading/
 │   │   └── reddit/          # Reddit sentiment API
 │   ├── database/            # Database layer
 │   │   ├── interface.py     # Abstract interface
-│   │   └── cs2_sqlite_helper.py
+│   │   ├── cs2_sqlite_helper.py
+│   │   └── cs2_sqlite_setup.py
 │   ├── graph/               # LangGraph workflow
 │   │   ├── workflow.py      # Main workflow
 │   │   ├── schema.py        # State definitions
