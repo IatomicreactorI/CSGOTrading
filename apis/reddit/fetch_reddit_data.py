@@ -4,18 +4,14 @@ Pre-fetch historical data to avoid calling Reddit API on every run
 """
 
 import os
-import sys
 import pandas as pd
 from datetime import datetime, timedelta
 from typing import List, Optional
 from dotenv import load_dotenv
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-load_dotenv()
-
 from apis.reddit.api import RedditAPI
 from apis.common_model import MediaNews
 from util.logger import logger
+load_dotenv()
 
 SUBREDDITS = ["GlobalOffensiveTrade", "csgomarketforum", "cs2"]
 CSV_PATH = os.path.join(os.path.dirname(__file__), 'reddit_data.csv')

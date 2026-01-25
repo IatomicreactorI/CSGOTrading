@@ -3,7 +3,7 @@
 Fetch Steam news (GetNewsForApp) for a list of tickers and store into a single steam_data.csv file.
 
 Usage example:
-  python apis/steam/fetch_steam_data.py \
+  python -m apis.steam.fetch_steam_data \
     --config config/Direct-cd.yaml \
     --start-date 2025-09-25 \
     --end-date 2025-11-15 \
@@ -14,13 +14,9 @@ Usage example:
 import argparse
 import csv
 import os
-import sys
+import yaml
 from datetime import datetime, timedelta
 from typing import List
-import yaml
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
-
 from apis.steam.api import SteamAPI
 from apis.common_model import MediaNews
 from util.logger import logger
