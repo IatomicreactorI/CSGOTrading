@@ -121,8 +121,48 @@ cp .env.example .env
 
 5. **Initialize database**
 ```bash
-python src/database/cs2_sqlite_setup.py
+python database/cs2_sqlite_setup.py
 ```
+
+6. **Fetch historical data** 
+
+Before running experiments, you can pre-fetch historical data to avoid API rate limits during backtesting:
+
+**Fetch Reddit data** (past 1 year):
+```bash
+# From project root directory
+python -m apis.reddit.fetch_reddit_data
+
+```
+This script fetches Reddit posts from the past year and saves them to `apis/reddit/reddit_data.csv`. No parameters required.
+
+**Fetch Steam news data**:
+```bash
+# From project root directory
+python -m apis.steam.fetch_steam_data \
+  --config config/Direct-cd.yaml \
+  --start-date 2025-09-25 \
+  --end-date 2025-11-15 \
+  --limit 15
+
+```
+
+Parameters:
+- `--config`: Path to config YAML file (must contain `exp_name` and `tickers`)
+- `--start-date`: Start date in YYYY-MM-DD format (required)
+- `--end-date`: End date in YYYY-MM-DD format, inclusive (required)
+- `--limit`: Maximum news items per ticker per day (default: 15, optional)
+- `--output`: Output CSV file path (default: `<script_dir>/steam_data.csv`, optional)
+
+**Fetch CS2 market data**:
+```bash
+# From project root directory
+python -m apis.cs2market.fetch_cs2_data
+
+```
+This script fetches current price data for candidate items from Steam Community Market and saves to `apis/cs2market/cs2_data.csv`. No parameters required. The script will automatically retry failed items up to 3 times.
+
+**Note**: These fetch scripts can be run anytime to update the historical data. The main experiment workflow will use these CSV files to avoid making API calls during backtesting.
 
 ---
 
@@ -133,7 +173,7 @@ python src/database/cs2_sqlite_setup.py
 Run a single-day experiment with default configuration:
 
 ```bash
-python src/run.py --config TS-ds.yaml --start-date 2025-09-25 --end-date 2025-09-25
+python run.py --config TS-ds.yaml --start-date 2025-09-25 --end-date 2025-09-25
 ```
 
 ### Batch Experiments
@@ -141,7 +181,7 @@ python src/run.py --config TS-ds.yaml --start-date 2025-09-25 --end-date 2025-09
 Run multi-day backtesting:
 
 ```bash
-python src/run.py \
+python run.py \
   --config TS-ds.yaml \
   --start-date 2025-09-25 \
   --end-date 2025-10-27
@@ -171,18 +211,39 @@ Example: `TSLE-cd.yaml` uses all analysts with Claude 3.5 Sonnet.
 ### View Results
 
 ```bash
-# View portfolio performance
-python src/view.py --config-name TS-ds --date 2025-09-26
+# View all information of specified experiment
+python view.py TS-ds
+
+# View portfolios
+python view.py TS-ds portfolios
+
+# View latest positions
+python view.py TS-ds positions
+
+# View daily portfolios and export CSV
+python view.py TS-ds daily
+
+# View portfolios of specified date
+python view.py TS-ds daily 2025-09-26
+
+# Export thinking process JSON file
+python view.py TS-ds thinking
+
+# View data summary
+python view.py TS-ds summary
+
+# List all experiments
+python view.py list
 
 # Clear experiment data
-python src/clear.py --config-name TS-ds
+python clear.py --config-name TS-ds
 ```
 
 ---
 
 ## 📊 Configuration
 
-### Workflow Configuration (`src/config/`)
+### Workflow Configuration (`config/`)
 
 ```yaml
 exp_name: "TS-ds"  # Experiment name
@@ -207,7 +268,7 @@ enable_transaction_fee: true  # Include trading costs
 
 **Local SQLite** (default):
 ```bash
-python src/run.py --config TS-ds.yaml
+python run.py --config TS-ds.yaml
 ```
 
 ---
@@ -217,39 +278,46 @@ python src/run.py --config TS-ds.yaml
 
 ```
 CSGOTrading/
-├── src/
-│   ├── agents/              # Agent implementations
-│   │   ├── planner.py       # Meta-planner agent
-│   │   ├── portfolio_manager.py  # Portfolio management
-│   │   ├── registry.py      # Agent registry
-│   │   └── analysts/        # Specialized analysts
-│   │       ├── technical.py
-│   │       ├── sentiment.py
-│   │       ├── liquidity.py
-│   │       └── event.py
-│   ├── apis/                # Data source integrations
-│   │   ├── cs2market/       # CS2 market data
-│   │   ├── steam/           # Steam news API
-│   │   └── reddit/          # Reddit sentiment API
-│   ├── database/            # Database layer
-│   │   ├── interface.py     # Abstract interface
-│   │   ├── cs2_sqlite_helper.py
-│   │   └── cs2_sqlite_setup.py
-│   ├── graph/               # LangGraph workflow
-│   │   ├── workflow.py      # Main workflow
-│   │   ├── schema.py        # State definitions
-│   │   └── constants.py
-│   ├── llm/                 # LLM integration
-│   │   ├── inference.py     # LLM calls
-│   │   ├── provider.py      # Provider configs
-│   │   └── prompt.py        # Prompt templates
-│   ├── config/              # Experiment configurations
-│   ├── util/                # Utilities
-│   ├── run.py               # Main execution script
-│   ├── view.py              # Results visualization
-│   └── clear.py             # Data cleanup
+├── agents/                  # Agent implementations
+│   ├── planner.py          # Meta-planner agent
+│   ├── portfolio_manager.py # Portfolio management
+│   ├── registry.py         # Agent registry
+│   └── analysts/           # Specialized analysts
+│       ├── technical.py
+│       ├── sentiment.py
+│       ├── sentiment_reverse.py
+│       ├── liquidity.py
+│       └── event.py
+├── apis/                   # Data source integrations
+│   ├── cs2market/          # CS2 market data
+│   ├── steam/              # Steam news API
+│   ├── reddit/             # Reddit sentiment API
+│   ├── router.py           # API router
+│   └── common_model.py     # Common data models
+├── database/               # Database layer
+│   ├── interface.py        # Abstract interface
+│   ├── cs2_sqlite_helper.py
+│   └── cs2_sqlite_setup.py
+├── graph/                  # LangGraph workflow
+│   ├── workflow.py         # Main workflow
+│   ├── schema.py           # State definitions
+│   └── constants.py
+├── llm/                    # LLM integration
+│   ├── inference.py        # LLM calls
+│   ├── provider.py         # Provider configs
+│   └── prompt.py           # Prompt templates
+├── config/                 # Experiment configurations
+├── util/                   # Utilities
+│   ├── config.py
+│   ├── cs2_db_helper.py
+│   └── logger.py
+├── figs/                   # Figures and images
+├── run.py                  # Main execution script
+├── view.py                 # Results visualization
+├── clear.py                # Data cleanup
 ├── requirements.txt
-├── .env.example
+├── .env.example            # Environment variables template
+├── LICENSE
 └── README.md
 ```
 
@@ -259,7 +327,7 @@ CSGOTrading/
 
 ### Adding Custom Analysts
 
-1. Create analyst implementation in `src/agents/analysts/`:
+1. Create analyst implementation in `agents/analysts/`:
 
 ```python
 from graph.constants import AgentKey
@@ -274,7 +342,7 @@ def custom_analyst(ticker: str, llm_config, analyst_signal):
     }
 ```
 
-2. Register in `src/agents/registry.py`:
+2. Register in `agents/registry.py`:
 
 ```python
 AgentRegistry.register(
@@ -295,7 +363,7 @@ workflow_analysts:
 
 ### Custom LLM Providers
 
-Add provider configuration in `src/llm/provider.py`:
+Add provider configuration in `llm/provider.py`:
 
 ```python
 @dataclass
@@ -324,7 +392,7 @@ Detailed API documentation is available in the `docs/` directory:
 
 ### Workflow Explanation
 
-For a comprehensive understanding of the system workflow, see [WORKFLOW_EXPLANATION.md](src/WORKFLOW_EXPLANATION.md).
+For a comprehensive understanding of the system workflow, see [WORKFLOW_EXPLANATION.md](WORKFLOW_EXPLANATION.md).
 
 --- -->
 
@@ -348,8 +416,8 @@ pip install -r requirements-dev.txt
 pytest tests/
 
 # Run linting
-flake8 src/
-black src/
+flake8 .
+black .
 ```
 
 ---
