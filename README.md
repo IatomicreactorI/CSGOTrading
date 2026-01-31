@@ -234,7 +234,11 @@ python view.py TS-ds summary
 
 # List all experiments
 python view.py list
+```
 
+
+### Clear Results
+```bash
 # Clear experiment data
 python clear.py --config-name TS-ds
 ```
